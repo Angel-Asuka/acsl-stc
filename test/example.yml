@@ -1,0 +1,25 @@
+TestData:               # 定义一个数据结构 TestData
+  m1 : number           # m1 是一个必填的 number 类型成员
+                        # m2 是一个可选的 string 类型成员
+                        # 如果 m2 存在，那么它的长度必须在5-16之间
+  m2? : string @ $.length > 5 && $.length < 16
+                        # m3 是一个必填的字段，他可以是 string 类型、
+                        # number 类型 或者等于 null
+  m3 : string | number | null
+                        # m4 可以取值 'foo' 或者 'bar'
+                        # 注意这里必须遵循 YAML 语法，所以必须用 " 将
+                        # 这一段描述括起来
+  m4 : "'foo' | 'bar'"
+                        # m5 是一个可选的 object
+  m5? :
+    m51: number
+    m52: string
+                        # 一般使用这种比较常见的数组描述方式
+  m6 : Array<string>
+                        # 同样，这样的表达方式也是可以的
+  m7 : string[] @ $.length > 5
+                        # 也可以这样描述固定长度并且对内容结构有要求的数组
+  m8 : 
+    - string
+    - string
+  "[k:string]" : any
