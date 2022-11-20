@@ -1,4 +1,4 @@
-{
+
   "name": "@acsl/stc",
   "version": "1.0.1",
   "description": "ACSL Smart Type Compiler",
@@ -10,7 +10,7 @@
     "build": "rm -fr ./dist && tsc -p tsconfig.json"
   },
   "bin": {
-    "acsl-stc": "./dist/stc.js"
+    "stc": "./dist/stc.js"
   },
   "bugs": {
     "url": "https://github.com/Angel-Asuka/acsl-stc/issues"

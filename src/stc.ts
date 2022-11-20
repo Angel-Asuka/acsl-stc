@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import YAML from 'yaml'
 import fs, { mkdir } from 'node:fs'
 import os from 'node:os'
