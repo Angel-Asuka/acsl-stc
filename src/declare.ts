@@ -1,5 +1,7 @@
 import fs from 'node:fs'
 
+const RNUM = /^[0-9]*(\.[0-9]*)?(e([0-9]*.)*[0-9]+)?$/
+
 const COMA = Buffer.from(',\n')
 const NOCOMA = Buffer.from('\n')
 const ENDBLOCK = Buffer.from('}\n')
@@ -65,18 +67,31 @@ export class Data{
                     if(vx in FIXEDTYPES){
                         chkstr += `(typeof ${this.chkname} == "${vx}")`
                     }else{
-                        chkstr += `(${this.chkname} == ${vx})`
+                        if(typeof vx == 'number' || RNUM.test(`${vx}`))
+                            chkstr += `(${this.chkname} == ${vx})`
+                        else if(typeof vx == 'string' && (vx[0] == "'" || vx[0] == '"'))
+                            chkstr += `(${this.chkname} == ${vx})`
+                        else
+                            chkstr += `(${this.chkname} == '${vx}')`
                     }
                 }
                 if(chkstr != '')
                 this.check.push(chkstr)
             }else if(this.decl in FIXEDTYPES)
                 this.check.push(`typeof ${this.chkname} == "${this.decl}"`)
+            else{
+                if(typeof this.decl == 'number' || RNUM.test(`${this.decl}`))
+                    this.check.push(`${this.chkname} == ${this.decl}`)
+                else if(typeof this.decl == 'string' && (this.decl[0] == "'" || this.decl[0] == '"')) 
+                    this.check.push(`${this.chkname} == ${this.decl}`)
+                else
+                    this.check.push(`${this.chkname} == "${this.decl}"`)
+            }
             for(let i=1; i<d.length; ++i)
                 this.check.push(d[i].trim().replaceAll('$', this.chkname))
         }else if(typeof def == 'number'){
             this.decl = `${def}`
-            this.check.push(`$ == ${def}`)
+            this.check.push(`${this.chkname} == ${def}`)
         }
     }
 
